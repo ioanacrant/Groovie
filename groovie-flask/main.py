@@ -1,8 +1,10 @@
 from flask import Flask, request
 from flask.ext.restful import Resource, Api
+from alchemyapi import AlchemyAPI
 import json
 import os
 import twitter
+import requests
 
 app = Flask(__name__)
 api = Api(app)
@@ -11,7 +13,9 @@ twitterapi = twitter.Api(
 	consumer_secret = 'XLbONRT87x5tPYu3tjihZ1NFeAYbNU7SjAbA4ih7lu7Wg7i8OM',
 	access_token_key = '2248276236-C5oUCCMlrvFsDN8qJUDxFkKEbLulZwGQtOjqw9r',
 	access_token_secret = 'BMYyeZou19RFbNfQ8NoqUqyr1F5xtECniVbIP1gmqKYc4')
+alchemyapi=AlchemyAPI()
 
+<<<<<<< HEAD
 movies = ["Batman","Iron Man"]
 # tweets=[]
 # for i in range(len(movies)):
@@ -42,15 +46,83 @@ def getTweets(name):
 	data = {};
 	data["tweets"] = mt;
 	return data;
+=======
+def retrieveTweets():
+	#returns a list of lists of the tweets about each movie
+	moviesname = ["The Imitation Game","Cinderella","American Sniper"]
+	tweets=[]
+	for movie in moviesname:
+		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='mixed', count=20, max_id='')
+		mt=[]
+		for t in movietweets:
+			mt.append(t.text.encode('utf-8'))
+		tweets.append(mt)
+	return tweets 								#[["Iron Man is awesome","Iron Man sux"],["Batman rox","Batman is cool"]]
 
+def retrieveMovieTweets(moviename):
+	tweets=[]
+	movietweets = twitterapi.GetSearch(term=moviename, lang='en', result_type='mixed', count=20, max_id='')
+	for t in movietweets:
+		tweets.append(t.text.encode('utf-8'))
+	return tweets
+
+
+def overallRatings(tweets):
+	#returns movie-overall rating pair for each movie
+	moviesname = ["The Imitation Game","Cinderella","American Sniper"]
+	overallratings=[]
+
+	for i in range(len(moviesname)):
+		sentimenttotal=0
+		sentimentcount=0
+		for j in range(len(tweets[i])):
+			tweettext=tweets[i][j]
+			sentimentparams= {"apikey":"284c0cc5558c1b4e78c505777be3b964c9dfa2f4", "text":tweettext, "target":moviesname[i], "outputMode":"json"}
+			response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
+			jsonresponse = json.loads(response)
+			if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
+				tweetscore = float(jsonresponse["docSentiment"]["score"])
+				sentimenttotal+=tweetscore
+				sentimentcount+=1
+		overallratings.append({moviesname[i]:((sentimenttotal/sentimentcount)+1)*50})
+	return overallratings
+
+
+def tweetRatings(tweets, moviename):
+	#this gets just a list of tweets from a particular movie, and returns the list of tweets and their respective ratings
+	sentiments=[]
+	
+	for i in range(len(tweets)):
+		tweettext=tweets[i]
+		sentimentparams= {"apikey":"284c0cc5558c1b4e78c505777be3b964c9dfa2f4", "text":tweettext, "target":moviename, "outputMode":"json"}
+		response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
+		jsonresponse = json.loads(response)
+
+		if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
+
+			tweetscore = (float(jsonresponse["docSentiment"]["score"])+1)*50
+			sentiments.append({tweettext:tweetscore})
+>>>>>>> 3ee17eb1e1bc1642eca7b42ac24e976638d5415a
+
+	return sentiments
 
 class GetMovies(Resource):
 	def get(self):
+<<<<<<< HEAD
 		return movies
 
 class MovieRating(Resource):
 	def get(self,movie_name):
 		return json.dumps(getTweets(movie_name))
+=======
+		return json.dumps(overallRatings(retrieveTweets()))
+
+class GetMovie(Resource):
+	def get(self, moviename):
+		mv=moviename.replace("%20"," ")
+		tweetsfrommovie=retrieveMovieTweets(mv)
+		return json.dumps(tweetRatings(tweetsfrommovie, mv))
+>>>>>>> 3ee17eb1e1bc1642eca7b42ac24e976638d5415a
 
 class MainRoute(Resource):
 	def get(self):
@@ -58,7 +130,11 @@ class MainRoute(Resource):
 
 api.add_resource(MainRoute, "/")
 api.add_resource(GetMovies, "/movies")
+<<<<<<< HEAD
 api.add_resource(MovieRating,"/movies/<string:movie_name>")
+=======
+api.add_resource(GetMovie, "/movies/<string:moviename>")
+>>>>>>> 3ee17eb1e1bc1642eca7b42ac24e976638d5415a
 
 if __name__ == '__main__':
 	port = int(os.environ.get('PORT', 5000))
