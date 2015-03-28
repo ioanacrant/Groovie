@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import me.groovie.groovieapp.R;
@@ -29,6 +31,11 @@ public class MovieArrayAdapter extends ArrayAdapter<MovieReview> {
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.movie_item, parent, false);
         }
+
+        String imageUrl = review.image_url;
+        ImageView imageView = (ImageView) convertView.findViewById(R.id.movie_icon_imageview);
+        Picasso.with(getContext()).load(imageUrl).into(imageView);
+
         TextView nameTextView = (TextView) convertView.findViewById(R.id.movie_name_textview);
         nameTextView.setText(review.name);
 
