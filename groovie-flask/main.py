@@ -15,38 +15,6 @@ twitterapi = twitter.Api(
 	access_token_secret = 'BMYyeZou19RFbNfQ8NoqUqyr1F5xtECniVbIP1gmqKYc4')
 alchemyapi=AlchemyAPI()
 
-<<<<<<< HEAD
-movies = ["Batman","Iron Man"]
-# tweets=[]
-# for i in range(len(movies)):
-# 	movietweets = twitterapi.GetSearch(term=movies[i], lang='en', result_type='mixed', count=10, max_id='')
-# 	mt=[]
-# 	for t in movietweets:
-# 		print t.user.screen_name + ' (' + t.created_at + ')'
-# 		#Add the .encode to force encoding
-# 		print t.text.encode('utf-8')
-# 		print ''
-# 		mt.append({t:"10"})
-# 	tweets.append(mt)
-
-def getTweets(name):
-	movietweets = twitterapi.GetSearch(term=name, lang='en', result_type='mixed', count=10, max_id='')
-	mt=[]
-	for t in movietweets:
-		tweet = {};
-		tweet["created_at"] = t.created_at.encode('utf-8')
-		tweet["screen_name"] = t.user.screen_name.encode('utf-8')
-		tweet["message"] = t.text.encode('utf-8');
-		# print t.user.screen_name + ' (' + t.created_at + ')'
-		# #Add the .encode to force encoding
-		# print t.text.encode('utf-8')
-		# print ''
-		# mt.append({t:"10"})
-		mt.append(tweet);
-	data = {};
-	data["tweets"] = mt;
-	return data;
-=======
 def retrieveTweets():
 	#returns a list of lists of the tweets about each movie
 	moviesname = ["The Imitation Game","Cinderella","American Sniper"]
@@ -102,19 +70,11 @@ def tweetRatings(tweets, moviename):
 
 			tweetscore = (float(jsonresponse["docSentiment"]["score"])+1)*50
 			sentiments.append({tweettext:tweetscore})
->>>>>>> 3ee17eb1e1bc1642eca7b42ac24e976638d5415a
 
 	return sentiments
 
 class GetMovies(Resource):
 	def get(self):
-<<<<<<< HEAD
-		return movies
-
-class MovieRating(Resource):
-	def get(self,movie_name):
-		return json.dumps(getTweets(movie_name))
-=======
 		return json.dumps(overallRatings(retrieveTweets()))
 
 class GetMovie(Resource):
@@ -122,7 +82,6 @@ class GetMovie(Resource):
 		mv=moviename.replace("%20"," ")
 		tweetsfrommovie=retrieveMovieTweets(mv)
 		return json.dumps(tweetRatings(tweetsfrommovie, mv))
->>>>>>> 3ee17eb1e1bc1642eca7b42ac24e976638d5415a
 
 class MainRoute(Resource):
 	def get(self):
@@ -130,11 +89,7 @@ class MainRoute(Resource):
 
 api.add_resource(MainRoute, "/")
 api.add_resource(GetMovies, "/movies")
-<<<<<<< HEAD
-api.add_resource(MovieRating,"/movies/<string:movie_name>")
-=======
 api.add_resource(GetMovie, "/movies/<string:moviename>")
->>>>>>> 3ee17eb1e1bc1642eca7b42ac24e976638d5415a
 
 if __name__ == '__main__':
 	port = int(os.environ.get('PORT', 5000))
