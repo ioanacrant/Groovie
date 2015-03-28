@@ -29,10 +29,14 @@ def retrieveTweets():
 
 def retrieveMovieTweets(moviename):
 	tweets=[]
+	users=[]
+	userimage=[]
 	movietweets = twitterapi.GetSearch(term=moviename, lang='en', result_type='mixed', count=20, max_id='')
 	for t in movietweets:
 		tweets.append(t.text.encode('utf-8'))
-	return tweets
+		users.append(t.user.name)
+		userimage.append(t.user.profile_image_url)
+	return [tweets,users,userimage]
 
 
 def overallRatings(tweets):
@@ -56,12 +60,14 @@ def overallRatings(tweets):
 	return {"movies":overallratings}
 
 
-def tweetRatings(tweets, moviename):
+def tweetRatings(tweets, users, imageurls, moviename):
 	#this gets just a list of tweets from a particular movie, and returns the list of tweets and their respective ratings
 	sentiments=[]
 	
 	for i in range(len(tweets)):
 		tweettext=tweets[i]
+		tweetuser=users[i]
+		tweetimageurl=imageurls[i]
 		sentimentparams= {"apikey":"284c0cc5558c1b4e78c505777be3b964c9dfa2f4", "text":tweettext, "target":moviename, "outputMode":"json"}
 		response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
 		jsonresponse = json.loads(response)
@@ -69,9 +75,9 @@ def tweetRatings(tweets, moviename):
 		if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
 
 			tweetscore = str(round((float(jsonresponse["docSentiment"]["score"])+1)*50,1))
-			sentiments.append({tweettext:tweetscore})
+			sentiments.append({"username":tweetuser, "text":tweettext, "imageurl":tweetimageurl , "rating":tweetscore})
 
-	return sentiments
+	return {"tweets":sentiments}
 
 class GetMovies(Resource):
 	def get(self):
@@ -80,8 +86,9 @@ class GetMovies(Resource):
 class GetMovie(Resource):
 	def get(self, moviename):
 		mv=moviename.replace("%20"," ")
-		tweetsfrommovie=retrieveMovieTweets(mv)
-		return json.dumps(tweetRatings(tweetsfrommovie, mv))
+
+		tweetsfrommovie,usersfrommovie,userimagesfrommovie=retrieveMovieTweets(mv)
+		return json.dumps(tweetRatings(tweetsfrommovie, usersfrommovie, userimagesfrommovie, mv))
 
 class MainRoute(Resource):
 	def get(self):
