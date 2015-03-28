@@ -9,8 +9,8 @@ GET `/movies`
 
 ```js
 {
-	"movies":[
-	{
+	"movies":
+	[{
 		"name":"Interstellar",
 		"rating":"2.5"
 	},
