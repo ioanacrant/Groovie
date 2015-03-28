@@ -2,6 +2,7 @@ package me.groovie.groovieapp;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,8 +65,11 @@ public class MoviesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String movie = ((TextView) view.findViewById(R.id.movie_name_textview)).getText().toString();
+                MovieReview review = (MovieReview) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
                 intent.putExtra("movie_name", movie);
+                intent.putExtra("banner_url",review.banner_url);
+                intent.putExtra("rating", review.rating);
                 startActivity(intent);
             }
         });
