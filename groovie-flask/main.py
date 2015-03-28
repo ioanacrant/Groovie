@@ -8,19 +8,21 @@ import requests
 
 app = Flask(__name__)
 api = Api(app)
+
 twitterapi = twitter.Api(
 	consumer_key = 'ZAiicOaBcaS2GqVuxq4xhK6di',
 	consumer_secret = 'XLbONRT87x5tPYu3tjihZ1NFeAYbNU7SjAbA4ih7lu7Wg7i8OM',
 	access_token_key = '2248276236-C5oUCCMlrvFsDN8qJUDxFkKEbLulZwGQtOjqw9r',
 	access_token_secret = 'BMYyeZou19RFbNfQ8NoqUqyr1F5xtECniVbIP1gmqKYc4')
 alchemyapi=AlchemyAPI()
+MYALCHEMYKEY="70facd1b39e4d273bc178918fb38946b551d7944"
 
 def retrieveTweets():
 	#returns a list of lists of the tweets about each movie
 	moviesname = ["The Imitation Game","Cinderella","American Sniper"]
 	tweets=[]
 	for movie in moviesname:
-		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='mixed', count=20, max_id='')
+		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='mixed', count=10, max_id='')
 		mt=[]
 		for t in movietweets:
 			mt.append(t.text.encode('utf-8'))
@@ -31,7 +33,8 @@ def retrieveMovieTweets(moviename):
 	tweets=[]
 	users=[]
 	userimage=[]
-	movietweets = twitterapi.GetSearch(term=moviename, lang='en', result_type='mixed', count=20, max_id='')
+	movietweets = twitterapi.GetSearch(term=moviename, lang='en', result_type='mixed', count=10, max_id='')
+	
 	for t in movietweets:
 		tweets.append(t.text.encode('utf-8'))
 		users.append(t.user.name)
@@ -43,15 +46,16 @@ def overallRatings(tweets):
 	#returns movie-overall rating pair for each movie
 	moviesname = ["The Imitation Game","Cinderella","American Sniper"]
 	overallratings=[]
-
 	for i in range(len(moviesname)):
 		sentimenttotal=0
 		sentimentcount=0
 		for j in range(len(tweets[i])):
 			tweettext=tweets[i][j]
-			sentimentparams= {"apikey":"284c0cc5558c1b4e78c505777be3b964c9dfa2f4", "text":tweettext, "target":moviesname[i], "outputMode":"json"}
+
+			sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "target":moviesname[i], "outputMode":"json"}
 			response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
 			jsonresponse = json.loads(response)
+			print(jsonresponse)
 			if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
 				tweetscore = float(jsonresponse["docSentiment"]["score"])
 				sentimenttotal+=tweetscore
@@ -68,7 +72,7 @@ def tweetRatings(tweets, users, imageurls, moviename):
 		tweettext=tweets[i]
 		tweetuser=users[i]
 		tweetimageurl=imageurls[i]
-		sentimentparams= {"apikey":"284c0cc5558c1b4e78c505777be3b964c9dfa2f4", "text":tweettext, "target":moviename, "outputMode":"json"}
+		sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "target":moviename, "outputMode":"json"}
 		response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
 		jsonresponse = json.loads(response)
 
