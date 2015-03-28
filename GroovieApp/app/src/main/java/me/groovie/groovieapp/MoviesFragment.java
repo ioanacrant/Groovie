@@ -1,13 +1,16 @@
 package me.groovie.groovieapp;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -52,6 +55,15 @@ public class MoviesFragment extends Fragment {
 //        mRecyclerView.setAdapter(mAdapter);
         MovieArrayAdapter movieArrayAdapter = new MovieArrayAdapter(getActivity(), R.layout.movie_item, myDataset);
         mGridView.setAdapter(movieArrayAdapter);
+        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String movie = ((TextView) view.findViewById(R.id.movie_name_textview)).getText().toString();
+                Intent intent = new Intent(getActivity(), MovieDetailActivity.class);
+                intent.putExtra("movie_name", movie);
+                startActivity(intent);
+            }
+        });
         return rootView;
     }
 }
