@@ -43,11 +43,16 @@ public class MoviesFragment extends Fragment {
 //        mLayoutManager = new LinearLayoutManager(getActivity());
 //        mRecyclerView.setLayoutManager(mLayoutManager);
         ArrayList<MovieReview> myDataset = new ArrayList<MovieReview>();
-        myDataset.add(new MovieReview("Cinderella","93","http://www.impawards.com/2015/posters/cinderella_ver4.jpg"));
-        myDataset.add(new MovieReview("Get Hard","55","https://s.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w500/19141496561e14ab3b41ea38d31af3280009b227.jpg"));
-        myDataset.add(new MovieReview("The Imitation Game","80","http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg"));
-        myDataset.add(new MovieReview("Focus","74","http://www.impawards.com/2015/posters/focus_ver2.jpg"));
-        myDataset.add(new MovieReview("American Sniper", "80", "http://www.impawards.com/2014/posters/american_sniper.jpg"));
+        myDataset.add(new MovieReview("Cinderella","93","http://www.impawards.com/2015/posters/cinderella_ver4.jpg",
+                "http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg"));
+        myDataset.add(new MovieReview("Get Hard","55","https://s.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w500/19141496561e14ab3b41ea38d31af3280009b227.jpg",
+                "http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg"));
+        myDataset.add(new MovieReview("The Imitation Game","80","http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg",
+                "http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg"));
+        myDataset.add(new MovieReview("Focus","74","http://www.impawards.com/2015/posters/focus_ver2.jpg",
+                "http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg"));
+        myDataset.add(new MovieReview("American Sniper", "80", "http://www.impawards.com/2014/posters/american_sniper.jpg",
+                "http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg"));
 
 
         // specify an adapter (see also next example)

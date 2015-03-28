@@ -43,10 +43,10 @@ public class MovieDetailActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
-            TextView nameTextView = (TextView) rootView.findViewById(R.id.movie_name_textview);
+            //TextView nameTextView = (TextView) rootView.findViewById(R.id.movie_name_textview);
 
-            String movieName = getArguments().getString("movie_name");
-            nameTextView.setText(movieName);
+//            String movieName = getArguments().getString("movie_name");
+//            nameTextView.setText(movieName);
 
             ListView listView = (ListView) rootView.findViewById(R.id.tweets_list_view);
 //            listView.setAdapter(new ArrayAdapter<String>(getActivity(),R.id.));
