@@ -52,8 +52,8 @@ def overallRatings(tweets):
 				tweetscore = float(jsonresponse["docSentiment"]["score"])
 				sentimenttotal+=tweetscore
 				sentimentcount+=1
-		overallratings.append({moviesname[i]:((sentimenttotal/sentimentcount)+1)*50})
-	return overallratings
+		overallratings.append({"name":moviesname[i],"rating":str(round(((sentimenttotal/sentimentcount)+1)*50,1))})
+	return {"movies":overallratings}
 
 
 def tweetRatings(tweets, moviename):
@@ -68,7 +68,7 @@ def tweetRatings(tweets, moviename):
 
 		if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
 
-			tweetscore = (float(jsonresponse["docSentiment"]["score"])+1)*50
+			tweetscore = str(round((float(jsonresponse["docSentiment"]["score"])+1)*50,1))
 			sentiments.append({tweettext:tweetscore})
 
 	return sentiments
