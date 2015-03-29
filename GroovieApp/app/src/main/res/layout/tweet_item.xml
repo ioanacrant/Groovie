@@ -16,47 +16,62 @@
 
             android:orientation = "horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-
-                android:layout_height = "70dp"
-                android:id="@+id/tweet_icon_imageview"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="wrap_content"
-                android:background = "@color/black"
-                android:layout_gravity = "center"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentTop="true"
-                android:scaleType="fitStart"
-                android:adjustViewBounds="true"
-                android:src = "@mipmap/ic_launcher"
+                android:layout_height="wrap_content">
 
-                />
+                <de.hdodenhof.circleimageview.CircleImageView
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/tweet_icon_imageview"
+                    android:gravity="center"
+                    android:layout_margin = "16dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:src = "@mipmap/ic_launcher"
+                    app:border_width="5dp"
+                    app:border_color="#673AB7"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text = "90%"
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="0dp"/>
+            </LinearLayout>
 
-
-            <TextView
-                android:layout_marginTop="16dp"
-                android:id="@+id/tweet_name_textview"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:textColor = "@color/darkgrey"
-                android:text="Batman"
-                android:layout_marginLeft="16dp"
-                android:textSize="16sp" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center|left">
+                <TextView
+                    android:layout_marginTop="16dp"
+                    android:id="@+id/tweet_name_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:lines="1"
+                    android:textColor = "@color/darkgrey"
+                    android:text="Batman"
+                    android:layout_marginLeft="16dp"
+                    android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/tweet_rating_textview"
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textColor = "@color/lightgrey"
-                android:text = "Tweet Rating: 80%"
-                android:layout_marginLeft="16dp"
-                android:textSize="14sp"
-                android:layout_marginBottom="16dp"
-                />
+                <TextView
+                    android:id="@+id/tweet_rating_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:textColor = "@color/lightgrey"
+                    android:text = "I absolutely love this movie"
+                    android:lines="2"
+                    android:layout_marginLeft="16dp"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="16dp"
+                    />
+             </LinearLayout>
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

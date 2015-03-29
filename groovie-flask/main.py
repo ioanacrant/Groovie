@@ -37,7 +37,7 @@ def retrieveMovieTweets(moviename):
 	movietweets = twitterapi.GetSearch(term=moviename, lang='en', result_type='recent', count=10, max_id='')
 	
 	for t in movietweets:
-		tweets.append(t.text.encode('utf-8'))
+		tweets.append(t.text.encode('utf-8').replace("\"",""))
 		users.append(t.user.name)
 		userimage.append(t.user.profile_image_url)
 	return [tweets,users,userimage]
@@ -102,7 +102,7 @@ def tweetRatings(tweets, users, imageurls, moviename):
 
 class GetMovies(Resource):
 	def get(self):
-		return overallRatings(retrieveTweets())
+		return json.dumps(overallRatings(retrieveTweets()))
 
 class GetMovie(Resource):
 	def get(self, moviename):
