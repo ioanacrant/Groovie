@@ -16,7 +16,7 @@ twitterapi = twitter.Api(
 	access_token_key = '2248276236-C5oUCCMlrvFsDN8qJUDxFkKEbLulZwGQtOjqw9r',
 	access_token_secret = 'BMYyeZou19RFbNfQ8NoqUqyr1F5xtECniVbIP1gmqKYc4')
 alchemyapi=AlchemyAPI()
-MYALCHEMYKEY="202a5fd4424131aaefe92ab42c9e0bfa50379613"
+MYALCHEMYKEY="70e7017790e3879aa4458274001e1ec6b8c06690"
 
 def retrieveTweets():
 	#returns a list of lists of the tweets about each movie
