@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/primaryDef</item>
         <item name="colorPrimaryDark">@color/primaryDarkDef</item>
         <item name="colorAccent">@color/primaryDef</item>
+
     </style>
+
+
 
 </resources>

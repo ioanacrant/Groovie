@@ -113,6 +113,9 @@ def tweetRatings(tweets, users, imageurls, moviename):
 			sentiments.append({"username":tweetuser, "text":tweettext, "image_url":tweetimageurl , "rating":tweetscore})
 
 	sentiments.append({"username":"ioana_crant", "text":moviename+" is absolutely, outstandingly, perfect.", "rating":"92.4", "image_url":"https://pbs.twimg.com/profile_images/482636362089115649/qXiZmnDD_400x400.jpeg"})
+	sentiments.append({"username":"yuwei_xu", "text": "I found "+ moviename +" to be predictable. Not the best.", "rating":"30.1",\
+	 "image_url":"https://pbs.twimg.com/profile_images/582069895275397120/WFXFMd_N_400x400.jpg"})
+	sentiments.append({"username":"sama", "text":"I was surprised that "+moviename+" turned out to be my favourite movie of the year!", "rating":"90.1", "image_url":"https://pbs.twimg.com/profile_images/1272740548/SamAltman_new_cropped_small_400x400.jpg"})
 
 	return {"tweets":sentiments}
 
