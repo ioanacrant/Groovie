@@ -41,7 +41,7 @@ public class MovieArrayAdapter extends ArrayAdapter<MovieReview> {
             nameTextView.setText(review.name);
 
             TextView ratingTextView= (TextView)convertView.findViewById(R.id.movie_rating_textview);
-            ratingTextView.setText("Tweet Rating: "+review.rating);
+            ratingTextView.setText("Twitter Rating: "+ review.rating+"%");
         }
         catch (NullPointerException e){}
 

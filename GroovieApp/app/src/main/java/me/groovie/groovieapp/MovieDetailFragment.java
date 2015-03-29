@@ -60,7 +60,7 @@ public class MovieDetailFragment extends Fragment {
         //android.support.v7.widget.CardView cardView = (android.support.v7.widget.CardView) bannerView.findViewById(R.id.banner_cardview);
 
         TextView ratingTextView = (TextView) bannerView.findViewById(R.id.movie_rating_textview);
-        ratingTextView.setText(rating);
+        ratingTextView.setText("Twitter Rating: "+ rating+"%");
 
         listView.addHeaderView(bannerView);
         ArrayList<Tweet> tweets = new ArrayList<Tweet>();

@@ -40,7 +40,10 @@
                     android:singleLine="true"
                     android:textColor = "@color/darkgrey"
                     android:text="Batman"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:lines="1"
+
                     android:textSize="16sp" />
 
                 <TextView
