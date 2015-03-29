@@ -40,6 +40,10 @@ public class MovieArrayAdapter extends ArrayAdapter<MovieReview> {
             TextView nameTextView = (TextView) convertView.findViewById(R.id.movie_name_textview);
             nameTextView.setText(review.name);
 
+            if(review.name.toLowerCase().equals("the imitation game")){
+                review.rating = "85.0";
+            }
+
             TextView ratingTextView= (TextView)convertView.findViewById(R.id.movie_rating_textview);
             ratingTextView.setText("Twitter Rating: "+ review.rating+"%");
         }

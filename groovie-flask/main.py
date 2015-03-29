@@ -22,7 +22,7 @@ def retrieveTweets():
 	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper"]
 	tweets=[]
 	for movie in moviesname:
-		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='mixed', count=10, max_id='')
+		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='recent', count=10, max_id='')
 		mt=[]
 		for t in movietweets:
 			mt.append(t.text.encode('utf-8'))
@@ -34,7 +34,7 @@ def retrieveMovieTweets(moviename):
 	tweets=[]
 	users=[]
 	userimage=[]
-	movietweets = twitterapi.GetSearch(term=moviename, lang='en', result_type='mixed', count=10, max_id='')
+	movietweets = twitterapi.GetSearch(term=moviename, lang='en', result_type='recent', count=10, max_id='')
 	
 	for t in movietweets:
 		tweets.append(t.text.encode('utf-8'))
