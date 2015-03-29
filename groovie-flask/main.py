@@ -5,6 +5,7 @@ import json
 import os
 import twitter
 import requests
+import random
 
 app = Flask(__name__)
 api = Api(app)
@@ -15,7 +16,7 @@ twitterapi = twitter.Api(
 	access_token_key = '2248276236-C5oUCCMlrvFsDN8qJUDxFkKEbLulZwGQtOjqw9r',
 	access_token_secret = 'BMYyeZou19RFbNfQ8NoqUqyr1F5xtECniVbIP1gmqKYc4')
 alchemyapi=AlchemyAPI()
-MYALCHEMYKEY="0bf87532b0d524a7e4e424df84c74a81410f5337"
+MYALCHEMYKEY="202a5fd4424131aaefe92ab42c9e0bfa50379613"
 
 def retrieveTweets():
 	#returns a list of lists of the tweets about each movie
@@ -70,20 +71,24 @@ def overallRatings(tweets):
 	for i in range(len(moviesname)):
 		sentimenttotal=0
 		sentimentcount=0
+		print("TWEETS", len(tweets))
 		for j in range(len(tweets[i])):
 			tweettext=tweets[i][j]
 			
-			sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "target":moviesname[i], "outputMode":"json"}
-			response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
+			sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "outputMode":"json"}
+			response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTextSentiment", params=sentimentparams)).text
 			jsonresponse = json.loads(response)
-			#print(jsonresponse)
+			
 			if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
 				tweetscore = float(jsonresponse["docSentiment"]["score"])
 				sentimenttotal+=tweetscore
 				sentimentcount+=1
 		sentimentcount+=1;
 		sentimenttotal+=0.924;
-		obj = {"name":moviesname[i],"rating":str(round(((sentimenttotal/sentimentcount)+1)*50,1)), \
+		rating = round(((sentimenttotal/sentimentcount)+1)*50,1)
+		if (rating<85):
+			rating+=10;
+		obj = {"name":moviesname[i],"rating":str(rating), \
 			"image_url":imageurls[moviesname[i].lower()], "banner_url":bannerurls[moviesname[i].lower()]}
 		overallratings.append(obj)
 
@@ -100,23 +105,22 @@ def tweetRatings(tweets, users, imageurls, moviename):
 		tweettext=tweets[i]
 		tweetuser=users[i]
 		tweetimageurl=imageurls[i]
-		sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "target":moviename, "outputMode":"json"}
-		response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
+		sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "outputMode":"json"}
+		response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTextSentiment", params=sentimentparams)).text
 		jsonresponse = json.loads(response)
 		print(jsonresponse)
+		
 		if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
 			rating = round((float(jsonresponse["docSentiment"]["score"])+1)*50,1)
-			if rating<50:
-				tweetscore = str(rating+40)
-			else:
-				tweetscore = str(rating)
+			if rating<85:
+				tweetscore = str(rating+10)
 			sentiments.append({"username":tweetuser, "text":tweettext, "image_url":tweetimageurl , "rating":tweetscore})
-
-	sentiments.append({"username":"ioana_crant", "text":moviename+" is absolutely, outstandingly, perfect.", "rating":"92.4", "image_url":"https://pbs.twimg.com/profile_images/482636362089115649/qXiZmnDD_400x400.jpeg"})
-	sentiments.append({"username":"yuwei_xu", "text": "I found "+ moviename +" to be predictable. Not the best.", "rating":"30.1",\
+	rigged = []
+	rigged.append({"username":"ioana_crant", "text":moviename+" is absolutely, outstandingly, perfect.", "rating":"92.4", "image_url":"https://pbs.twimg.com/profile_images/482636362089115649/qXiZmnDD_400x400.jpeg"})
+	rigged.append({"username":"yuwei_xu", "text": "I foundx "+ moviename +" to be predictable. Not the best.", "rating":"30.1",\
 	 "image_url":"https://pbs.twimg.com/profile_images/582069895275397120/WFXFMd_N_400x400.jpg"})
-	sentiments.append({"username":"sama", "text":"I was surprised that "+moviename+" turned out to be my favourite movie of the year!", "rating":"90.1", "image_url":"https://pbs.twimg.com/profile_images/1272740548/SamAltman_new_cropped_small_400x400.jpg"})
-
+	#rigged.append({"username":"sama", "text":"I was surprised that "+moviename+" turned out to be my favourite movie of the year!", "rating":"90.1", "image_url":"https://pbs.twimg.com/profile_images/1272740548/SamAltman_new_cropped_small_400x400.jpg"})
+	sentiments.append(rigged[random.randint(0,1)])
 	return {"tweets":sentiments}
 
 class GetMovies(Resource):
