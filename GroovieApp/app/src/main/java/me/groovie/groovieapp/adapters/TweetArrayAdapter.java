@@ -33,12 +33,12 @@ public class TweetArrayAdapter extends ArrayAdapter<Tweet> {
         }
 
         String username = tweet.username;
-        String message = tweet.message;
+        String message = tweet.text;
 //        ImageView imageView = (ImageView) convertView.findViewById(R.id.movie_icon_imageview);
 //        Picasso.with(getContext()).load(imageUrl).into(imageView);
 //
-//        TextView nameTextView = (TextView) convertView.findViewById(R.id.movie_name_textview);
-//        nameTextView.setText(review.name);
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.tweet_name_textview);
+        nameTextView.setText(message);
 //
 //        TextView ratingTextView= (TextView)convertView.findViewById(R.id.movie_rating_textview);
 //        ratingTextView.setText("Tweet Rating: "+review.rating);

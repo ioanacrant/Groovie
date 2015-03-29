@@ -102,7 +102,7 @@ def tweetRatings(tweets, users, imageurls, moviename):
 
 class GetMovies(Resource):
 	def get(self):
-		return json.dumps(overallRatings(retrieveTweets()))
+		return overallRatings(retrieveTweets())
 
 class GetMovie(Resource):
 	def get(self, moviename):

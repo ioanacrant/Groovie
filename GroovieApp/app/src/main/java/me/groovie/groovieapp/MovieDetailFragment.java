@@ -71,13 +71,14 @@ public class MovieDetailFragment extends Fragment {
         tweets.add(new Tweet("abc","def"));
         tweetArrayAdapter = new TweetArrayAdapter(getActivity(), R.layout.tweet_item, tweets);
         listView.setAdapter(tweetArrayAdapter);
+        new AsyncTweetLoader().execute(movieName);
         //listView.addHeaderView(cardView);
 
 //            listView.setAdapter(new ArrayAdapter<String>(getActivity(),R.id.));
 
         return rootView;
     }
-    public class AsyncMovieLoader extends AsyncTask<ArrayList<MovieReview>, Void, Void> {
+    public class AsyncTweetLoader extends AsyncTask<String, Void, Void> {
 
         @Override
         protected void onPostExecute(Void result) {
@@ -86,15 +87,21 @@ public class MovieDetailFragment extends Fragment {
 //            movieArrayAdapter.setMovieReviews(result);
             tweetArrayAdapter.notifyDataSetChanged();
         }
-
+        public String convertStandardJSONString(String data_json){
+            data_json = data_json.replace("\\", "");
+            data_json = data_json.replace("\"{", "{");
+            data_json = data_json.replace("}\",", "},");
+            data_json = data_json.replace("}\"", "}");
+            return data_json;
+        }
         @Override
-        protected Void doInBackground(ArrayList<MovieReview>... params) {
+        protected Void doInBackground(String... params) {
 
             final ArrayList<Tweet> result = new ArrayList<Tweet>();
 
             try {
                 String resp;
-                URL url = new URL("http://young-fjord-8790.herokuapp.com/movies");
+                URL url = new URL("http://young-fjord-8790.herokuapp.com/movies/"+"batman");
 
                 // Create the request to OpenWeatherMap, and open the connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -120,21 +127,23 @@ public class MovieDetailFragment extends Fragment {
 
 
                 resp = buffer.toString();
+                //resp ="{\"tweets\": [{\"text\": \"Crazy stuff going on in the world. I turned the news on for 30 seconds and realized we gonna need Batman for real.\", \"rating\": \"30.7\", \"username\": \"King Bach\", \"imageurl\": \"https://pbs.twimg.com/profile_images/555161397068189696/yCajAqdj_normal.jpeg\"}, {\"text\": \"Batman's reading corner. http://t.co/mJP7i63epA\", \"rating\": \"77.2\", \"username\": \"A.J.\", \"imageurl\": \"https://pbs.twimg.com/profile_images/532179269581959169/OYuukW8r_normal.jpeg\"}, {\"text\": \"Hey art collectors--check out this auction of a Batman &amp; Robin illustration I did #charity https://t.co/dBS9uiVgYX http://t.co/4jICbj7sim\", \"rating\": \"84.3\", \"username\": \"Jim Lee\", \"imageurl\": \"https://pbs.twimg.com/profile_images/551195471658500096/Qh6MAunH_normal.jpeg\"}, {\"text\": \"Holy 1980's batman. #SNLVintage\", \"rating\": \"68.8\", \"username\": \"Erin\", \"imageurl\": \"https://pbs.twimg.com/profile_images/530914330733060096/M45B9rl4_normal.jpeg\"}, {\"text\": \"RT @YouTube: How to be Batman. http://t.co/hwKJNpiAz8 http://t.co/jem2l2Vsw0\", \"rating\": \"70.0\", \"username\": \"MyNameIsTom\", \"imageurl\": \"https://pbs.twimg.com/profile_images/579403177394638849/3B2YHPQ7_normal.jpg\"}, {\"text\": \"NEW 52: FUTURES END 37,38,39,40,41,42 (2015) KEITH GIFFEN, JEFF LEMIRE http://t.co/PuafAuIKHz #batman\", \"rating\": \"64.8\", \"username\": \"Batman Memorabilia\", \"imageurl\": \"https://pbs.twimg.com/profile_images/378800000653846982/13023bb54129b3411d3bab234639c86b_normal.jpeg\"}]}";
 //                resp = "{\"movies\": [{\"name\": \"Get Hard\", \"rating\": \"66.1\", \"image_url\": \"https://s.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w500/19141496561e14ab3b41ea38d31af3280009b227.jpg\", \"banner_url\": \"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg\"},";
 //                resp +="{\"name\": \"The Imitation Game\", \"rating\": \"39.5\", \"image_url\": \"http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg\", \"banner_url\": \"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg\"},";
 //                resp +="{\"name\": \"Cinderella\", \"rating\": \"52.2\", \"image_url\": \"http://www.impawards.com/2015/posters/cinderella_ver4.jpg\", \"banner_url\": \"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg\"}]}";
-                Log.v("JSON: ", resp);
-                JSONObject obj = new JSONObject(resp);
-                JSONArray arr = obj.getJSONArray("movies");
+                Log.v("TWEET JSON: ", convertStandardJSONString(resp.trim().substring(1,resp.length()-2)));
+                resp =  convertStandardJSONString(resp.trim().substring(1,resp.length()-2));
+                JSONObject obj = new JSONObject(resp.substring(resp.indexOf("{"), resp.lastIndexOf("}") + 1));
+                JSONArray arr = obj.getJSONArray("tweets");
                 //Log.v("I MADE IT","HI");
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject movieobj = arr.getJSONObject(i);
-                    String name = movieobj.getString("name");
+                    String text = movieobj.getString("name");
                     String rating = movieobj.getString("rating");
-                    String image_url = movieobj.getString("image_url");
-                    String banner_url = movieobj.getString("banner_url");
-                    Log.v("ADDING", name + " "+rating);
-                    result.add(new Tweet(name,rating,image_url,banner_url));
+                    String username = movieobj.getString("username");
+                    String image_url = movieobj.getString("imageurl");
+                    //Log.v("ADDING", name + " "+rating);
+                    result.add(new Tweet(username,text,rating,image_url));
                 }
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
