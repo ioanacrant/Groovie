@@ -20,7 +20,7 @@ MYALCHEMYKEY="70e7017790e3879aa4458274001e1ec6b8c06690"
 
 def retrieveTweets():
 	#returns a list of lists of the tweets about each movie
-	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper","Fifty Shades of Grey", "Interstellar",\
+	moviesname = ["The Theory of Everything","The Imitation Game","Cinderella","American Sniper","Fifty Shades of Grey", "Interstellar",\
 	"Kingsman: The Secret Service","The Divergent Series: Insurgent"]
 	tweets=[]
 	for movie in moviesname:
@@ -47,25 +47,25 @@ def retrieveMovieTweets(moviename):
 
 def overallRatings(tweets):
 	#returns movie-overall rating pair for each movie
-	imageurls = {"cinderella":"http://www.impawards.com/2015/posters/cinderella_ver4.jpg",\
-	"get hard":"https://s.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w500/19141496561e14ab3b41ea38d31af3280009b227.jpg",\
+	imageurls = {"the theory of everything":"http://pop-break.com/wp-content/uploads/2014/11/Theory-of-Everything-Poster.jpg",\
 	"the imitation game":"http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg",\
+	"cinderella":"http://www.impawards.com/2015/posters/cinderella_ver4.jpg",\
 	"american sniper":"http://www.impawards.com/2014/posters/american_sniper.jpg",\
 	"fifty shades of grey":"http://assets.nydailynews.com/polopoly_fs/1.1591196!/img/httpImage/image.jpg_gen/derivatives/article_970/grey26f-1-web.jpg",\
 	"interstellar":"http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg",\
 	"kingsman: the secret service":"http://fwooshflix.thefwoosh.com/files/2015/02/Kingsman-The-Secret-Service-poster.jpg",\
 	"the divergent series: insurgent":"http://upload.wikimedia.org/wikipedia/en/a/af/Insurgent_poster.jpg"}
 
-	bannerurls = {"get hard":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg",\
-	"cinderella":"http://www.flickeringmyth.com/wp-content/uploads/2015/01/Cinderella-2015.jpg",\
+	bannerurls = {"the theory of everything":"https://cindygoesbeyond.files.wordpress.com/2015/03/theory-of-everything-poster.jpg",\
 	"the imitation game":"http://blog.bettercrypto.com/wp-content/uploads/the-imitation-game-banner.jpg",\
+	"cinderella":"http://4.bp.blogspot.com/-cXp81mNRysQ/VPrFJIU2eKI/AAAAAAAADAU/yPtBhBoD-rs/s1600/Disney's%2BCinderella%2B(2015)%2BMovie%2BBanner.jpg",\
 	"american sniper":"http://www.davestrailerpage.co.uk/images/americansniper800.jpg",\
 	"fifty shades of grey":"http://www.flickeringmyth.com/wp-content/uploads/2015/02/fifty-shades-of-grey-banner.jpg",\
 	"interstellar":"http://www.sasapost.com/wp-content/uploads/98caac85-f5ed-419a-8a2e-672a10473ea3.jpeg",\
 	"kingsman: the secret service":"https://vincentloy.files.wordpress.com/2015/03/kingsman-the-secret-service-banner.jpg",\
 	"the divergent series: insurgent":"http://redcarpetrefs.com/wp-content/uploads/2015/03/insurgent-banner.png"}
 
-	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper","Fifty Shades of Grey", "Interstellar",\
+	moviesname = ["The Theory of Everything","The Imitation Game","Cinderella","American Sniper","Fifty Shades of Grey", "Interstellar",\
 	"Kingsman: The Secret Service", "The Divergent Series: Insurgent"]#"The Divergent Series: Insurgent"
 	overallratings=[]
 	for i in range(len(moviesname)):
@@ -117,7 +117,7 @@ def tweetRatings(tweets, users, imageurls, moviename):
 			sentiments.append({"username":tweetuser, "text":tweettext, "image_url":tweetimageurl , "rating":tweetscore})
 	rigged = []
 	rigged.append({"username":"ioana_crant", "text":moviename+" is absolutely, outstandingly, perfect.", "rating":"92.4", "image_url":"https://pbs.twimg.com/profile_images/482636362089115649/qXiZmnDD_400x400.jpeg"})
-	rigged.append({"username":"yuwei_xu", "text": "I foundx "+ moviename +" to be predictable. Not the best.", "rating":"30.1",\
+	rigged.append({"username":"yuwei_xu", "text": "I found "+ moviename +" to be predictable. Not the best.", "rating":"30.1",\
 	 "image_url":"https://pbs.twimg.com/profile_images/582069895275397120/WFXFMd_N_400x400.jpg"})
 	#rigged.append({"username":"sama", "text":"I was surprised that "+moviename+" turned out to be my favourite movie of the year!", "rating":"90.1", "image_url":"https://pbs.twimg.com/profile_images/1272740548/SamAltman_new_cropped_small_400x400.jpg"})
 	sentiments.append(rigged[random.randint(0,1)])
