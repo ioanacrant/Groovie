@@ -15,11 +15,12 @@ twitterapi = twitter.Api(
 	access_token_key = '2248276236-C5oUCCMlrvFsDN8qJUDxFkKEbLulZwGQtOjqw9r',
 	access_token_secret = 'BMYyeZou19RFbNfQ8NoqUqyr1F5xtECniVbIP1gmqKYc4')
 alchemyapi=AlchemyAPI()
-MYALCHEMYKEY="fb9b56ac6225345d9e70b85ded0036279119b828"
+MYALCHEMYKEY="0bf87532b0d524a7e4e424df84c74a81410f5337"
 
 def retrieveTweets():
 	#returns a list of lists of the tweets about each movie
-	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper"]
+	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper","Fifty Shades of Grey", "Interstellar",\
+	"Kingsman: The Secret Service","The Divergent Series: Insurgent"]
 	tweets=[]
 	for movie in moviesname:
 		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='recent', count=10, max_id='')
@@ -48,14 +49,23 @@ def overallRatings(tweets):
 	imageurls = {"cinderella":"http://www.impawards.com/2015/posters/cinderella_ver4.jpg",\
 	"get hard":"https://s.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w500/19141496561e14ab3b41ea38d31af3280009b227.jpg",\
 	"the imitation game":"http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg",\
-	"american sniper":"http://www.impawards.com/2014/posters/american_sniper.jpg"}
+	"american sniper":"http://www.davestrailerpage.co.uk/images/americansniper800.jpg",\
+	"fifty shades of grey":"http://assets.nydailynews.com/polopoly_fs/1.1591196!/img/httpImage/image.jpg_gen/derivatives/article_970/grey26f-1-web.jpg",\
+	"interstellar":"http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg",\
+	"kingsman: the secret service":"http://fwooshflix.thefwoosh.com/files/2015/02/Kingsman-The-Secret-Service-poster.jpg",\
+	"the divergent series: insurgent":"http://upload.wikimedia.org/wikipedia/en/a/af/Insurgent_poster.jpg"}
 
 	bannerurls = {"get hard":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg",\
-	"cinderella":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg",\
-	"the imitation game":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg",\
-	"american sniper":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg"}
+	"cinderella":"http://www.flickeringmyth.com/wp-content/uploads/2015/01/Cinderella-2015.jpg",\
+	"the imitation game":"http://blog.bettercrypto.com/wp-content/uploads/the-imitation-game-banner.jpg",\
+	"american sniper":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg",\
+	"fifty shades of grey":"http://www.flickeringmyth.com/wp-content/uploads/2015/02/fifty-shades-of-grey-banner.jpg",\
+	"interstellar":"http://www.sasapost.com/wp-content/uploads/98caac85-f5ed-419a-8a2e-672a10473ea3.jpeg",\
+	"kingsman: the secret service":"https://vincentloy.files.wordpress.com/2015/03/kingsman-the-secret-service-banner.jpg",\
+	"the divergent series: insurgent":"http://redcarpetrefs.com/wp-content/uploads/2015/03/insurgent-banner.png"}
 
-	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper"]
+	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper","Fifty Shades of Grey", "Interstellar",\
+	"Kingsman: The Secret Service","The Divergent Series: Insurgent"]
 	overallratings=[]
 	for i in range(len(moviesname)):
 		sentimenttotal=0

@@ -32,31 +32,40 @@
                     android:src = "@mipmap/ic_launcher"
                     app:border_width="5dp"
                     app:border_color="#673AB7"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text = "90%"
-                    android:gravity="center"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="0dp"/>
+
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:gravity="center|left">
-                <TextView
-                    android:layout_marginTop="16dp"
-                    android:id="@+id/tweet_name_textview"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:lines="1"
-                    android:textColor = "@color/darkgrey"
-                    android:text="Batman"
-                    android:layout_marginLeft="16dp"
-                    android:textSize="16sp" />
+                    android:layout_marginRight="16dp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_marginTop="16dp"
+                        android:id="@+id/tweet_name_textview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="marquee"
+                        android:lines="1"
+                        android:textColor = "@color/darkgrey"
+                        android:text="Batman"
+                        android:layout_marginLeft="16dp"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:layout_marginTop="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text = "90%"
+
+                        android:gravity="center|right"/>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tweet_rating_textview"
