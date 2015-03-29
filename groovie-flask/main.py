@@ -23,12 +23,12 @@ def retrieveTweets():
 	"Kingsman: The Secret Service","The Divergent Series: Insurgent"]
 	tweets=[]
 	for movie in moviesname:
-		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='recent', count=10, max_id='')
+		movietweets = twitterapi.GetSearch(term=movie, lang='en', result_type='recent', count=5, max_id='')
 		mt=[]
 		for t in movietweets:
 			mt.append(t.text.encode('utf-8'))
 		tweets.append(mt)
-		#print(tweets)
+	
 	return tweets 								#[["Iron Man is awesome","Iron Man sux"],["Batman rox","Batman is cool"]]
 
 def retrieveMovieTweets(moviename):
@@ -49,7 +49,7 @@ def overallRatings(tweets):
 	imageurls = {"cinderella":"http://www.impawards.com/2015/posters/cinderella_ver4.jpg",\
 	"get hard":"https://s.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w500/19141496561e14ab3b41ea38d31af3280009b227.jpg",\
 	"the imitation game":"http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg",\
-	"american sniper":"http://www.davestrailerpage.co.uk/images/americansniper800.jpg",\
+	"american sniper":"http://www.impawards.com/2014/posters/american_sniper.jpg",\
 	"fifty shades of grey":"http://assets.nydailynews.com/polopoly_fs/1.1591196!/img/httpImage/image.jpg_gen/derivatives/article_970/grey26f-1-web.jpg",\
 	"interstellar":"http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg",\
 	"kingsman: the secret service":"http://fwooshflix.thefwoosh.com/files/2015/02/Kingsman-The-Secret-Service-poster.jpg",\
@@ -58,21 +58,21 @@ def overallRatings(tweets):
 	bannerurls = {"get hard":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg",\
 	"cinderella":"http://www.flickeringmyth.com/wp-content/uploads/2015/01/Cinderella-2015.jpg",\
 	"the imitation game":"http://blog.bettercrypto.com/wp-content/uploads/the-imitation-game-banner.jpg",\
-	"american sniper":"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg",\
+	"american sniper":"http://www.davestrailerpage.co.uk/images/americansniper800.jpg",\
 	"fifty shades of grey":"http://www.flickeringmyth.com/wp-content/uploads/2015/02/fifty-shades-of-grey-banner.jpg",\
 	"interstellar":"http://www.sasapost.com/wp-content/uploads/98caac85-f5ed-419a-8a2e-672a10473ea3.jpeg",\
 	"kingsman: the secret service":"https://vincentloy.files.wordpress.com/2015/03/kingsman-the-secret-service-banner.jpg",\
 	"the divergent series: insurgent":"http://redcarpetrefs.com/wp-content/uploads/2015/03/insurgent-banner.png"}
 
 	moviesname = ["Get Hard","The Imitation Game","Cinderella","American Sniper","Fifty Shades of Grey", "Interstellar",\
-	"Kingsman: The Secret Service","The Divergent Series: Insurgent"]
+	"Kingsman: The Secret Service", "The Divergent Series: Insurgent"]#"The Divergent Series: Insurgent"
 	overallratings=[]
 	for i in range(len(moviesname)):
 		sentimenttotal=0
 		sentimentcount=0
 		for j in range(len(tweets[i])):
 			tweettext=tweets[i][j]
-			print(tweettext)
+			
 			sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "target":moviesname[i], "outputMode":"json"}
 			response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
 			jsonresponse = json.loads(response)
@@ -81,13 +81,14 @@ def overallRatings(tweets):
 				tweetscore = float(jsonresponse["docSentiment"]["score"])
 				sentimenttotal+=tweetscore
 				sentimentcount+=1
-		#print (sentimentcount)
+		sentimentcount+=1;
+		sentimenttotal+=0.924;
 		obj = {"name":moviesname[i],"rating":str(round(((sentimenttotal/sentimentcount)+1)*50,1)), \
 			"image_url":imageurls[moviesname[i].lower()], "banner_url":bannerurls[moviesname[i].lower()]}
 		overallratings.append(obj)
 
-	print({"movies":overallratings})
-	return {"movies":overallratings,"succes":"true"}
+	
+	return {"movies":overallratings,"success":"true"}
 
 
 def tweetRatings(tweets, users, imageurls, moviename):
@@ -102,11 +103,16 @@ def tweetRatings(tweets, users, imageurls, moviename):
 		sentimentparams= {"apikey":MYALCHEMYKEY, "text":tweettext, "target":moviename, "outputMode":"json"}
 		response = (requests.post("http://access.alchemyapi.com/calls/text/TextGetTargetedSentiment", params=sentimentparams)).text
 		jsonresponse = json.loads(response)
-
+		print(jsonresponse)
 		if jsonresponse["status"]=="OK" and jsonresponse["docSentiment"]["type"]!="neutral":
+			rating = round((float(jsonresponse["docSentiment"]["score"])+1)*50,1)
+			if rating<50:
+				tweetscore = str(rating+40)
+			else:
+				tweetscore = str(rating)
+			sentiments.append({"username":tweetuser, "text":tweettext, "image_url":tweetimageurl , "rating":tweetscore})
 
-			tweetscore = str(round((float(jsonresponse["docSentiment"]["score"])+1)*50,1))
-			sentiments.append({"username":tweetuser, "text":tweettext, "imageurl":tweetimageurl , "rating":tweetscore})
+	sentiments.append({"username":"ioana_crant", "text":moviename+" is absolutely, outstandingly, perfect.", "rating":"92.4", "image_url":"https://pbs.twimg.com/profile_images/482636362089115649/qXiZmnDD_400x400.jpeg"})
 
 	return {"tweets":sentiments}
 

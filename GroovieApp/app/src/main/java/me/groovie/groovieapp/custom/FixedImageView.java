@@ -46,7 +46,7 @@ public class FixedImageView extends ImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = getMeasuredWidth();
 //force a 4:3 aspect ratio
-        int height = Math.round(width * .66f);
+        int height = Math.round(width * .57f);
         setMeasuredDimension(width, height);
     }
 }

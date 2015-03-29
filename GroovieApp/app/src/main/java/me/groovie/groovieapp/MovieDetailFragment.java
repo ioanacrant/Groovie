@@ -19,8 +19,10 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import me.groovie.groovieapp.adapters.MovieArrayAdapter;
@@ -54,6 +56,7 @@ public class MovieDetailFragment extends Fragment {
         ImageView imageView = (ImageView) bannerView.findViewById(R.id.movie_banner_imageview);
         Picasso.with(getActivity()).load(bannerUrl).fit().centerCrop().into(imageView);
 
+
         TextView nameTextView = (TextView) bannerView.findViewById(R.id.movie_name_textview);
         nameTextView.setText(movieName);
 
@@ -64,11 +67,11 @@ public class MovieDetailFragment extends Fragment {
 
         listView.addHeaderView(bannerView);
         ArrayList<Tweet> tweets = new ArrayList<Tweet>();
-        tweets.add(new Tweet("abc","def"));
-        tweets.add(new Tweet("abc","def"));
-        tweets.add(new Tweet("abc","def"));
-        tweets.add(new Tweet("abc","def"));
-        tweets.add(new Tweet("abc","def"));
+//        tweets.add(new Tweet("abc","def"));
+//        tweets.add(new Tweet("abc","def"));
+//        tweets.add(new Tweet("abc","def"));
+//        tweets.add(new Tweet("abc","def"));
+//        tweets.add(new Tweet("abc","def"));
         tweetArrayAdapter = new TweetArrayAdapter(getActivity(), R.layout.tweet_item, tweets);
         listView.setAdapter(tweetArrayAdapter);
         new AsyncTweetLoader().execute(movieName);
@@ -101,8 +104,10 @@ public class MovieDetailFragment extends Fragment {
 
             try {
                 String resp;
-                URL url = new URL("http://young-fjord-8790.herokuapp.com/movies/"+"batman");
+                String u = "http://young-fjord-8790.herokuapp.com/movies/"+params[0];
+                u = u.replaceAll(" ","%20");
 
+                URL url = new URL(u);
                 // Create the request to OpenWeatherMap, and open the connection
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
@@ -138,10 +143,10 @@ public class MovieDetailFragment extends Fragment {
                 //Log.v("I MADE IT","HI");
                 for (int i = 0; i < arr.length(); i++) {
                     JSONObject movieobj = arr.getJSONObject(i);
-                    String text = movieobj.getString("name");
+                    String text = movieobj.getString("text");
                     String rating = movieobj.getString("rating");
                     String username = movieobj.getString("username");
-                    String image_url = movieobj.getString("imageurl");
+                    String image_url = movieobj.getString("image_url");
                     //Log.v("ADDING", name + " "+rating);
                     result.add(new Tweet(username,text,rating,image_url));
                 }

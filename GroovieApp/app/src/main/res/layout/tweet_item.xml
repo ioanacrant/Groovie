@@ -9,7 +9,7 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         card_view:cardElevation="0dp"
         card_view:cardCornerRadius="0dp">
         <LinearLayout
@@ -26,7 +26,7 @@
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/tweet_icon_imageview"
                     android:gravity="center"
-                    android:layout_margin = "16dp"
+                    android:layout_margin = "14dp"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src = "@mipmap/ic_launcher"
@@ -50,17 +50,20 @@
                     <TextView
                         android:layout_marginTop="16dp"
                         android:id="@+id/tweet_name_textview"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="4"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:ellipsize="marquee"
                         android:lines="1"
                         android:textColor = "@color/darkgrey"
                         android:text="Batman"
-                        android:layout_marginLeft="16dp"
+
                         android:textSize="16sp" />
                     <TextView
+                        android:layout_weight="1"
                         android:layout_marginTop="16dp"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tweet_rating_textview"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text = "90%"
 
@@ -68,14 +71,14 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tweet_rating_textview"
+                    android:id="@+id/tweet_text_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textColor = "@color/lightgrey"
                     android:text = "I absolutely love this movie"
                     android:lines="2"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:textSize="14sp"
                     android:layout_marginBottom="16dp"
                     />
