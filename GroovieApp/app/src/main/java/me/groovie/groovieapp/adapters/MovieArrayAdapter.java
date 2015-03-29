@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import me.groovie.groovieapp.R;
@@ -26,22 +27,29 @@ public class MovieArrayAdapter extends ArrayAdapter<MovieReview> {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-        MovieReview review = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.movie_item, parent, false);
         }
 
-        String imageUrl = review.image_url;
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.movie_icon_imageview);
-        Picasso.with(getContext()).load(imageUrl).into(imageView);
+        try{
+            MovieReview review = movieReviews.get(position);
+            String imageUrl = review.image_url;
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.movie_icon_imageview);
+            Picasso.with(getContext()).load(imageUrl).into(imageView);
 
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.movie_name_textview);
-        nameTextView.setText(review.name);
+            TextView nameTextView = (TextView) convertView.findViewById(R.id.movie_name_textview);
+            nameTextView.setText(review.name);
 
-        TextView ratingTextView= (TextView)convertView.findViewById(R.id.movie_rating_textview);
-        ratingTextView.setText("Tweet Rating: "+review.rating);
+            TextView ratingTextView= (TextView)convertView.findViewById(R.id.movie_rating_textview);
+            ratingTextView.setText("Tweet Rating: "+review.rating);
+        }
+        catch (NullPointerException e){}
+
+
 
         return convertView;
+    }
+    public void setMovieReviews(ArrayList<MovieReview> m){
+        movieReviews = m;
     }
 }
