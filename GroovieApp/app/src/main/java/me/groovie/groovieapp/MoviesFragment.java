@@ -3,6 +3,7 @@ package me.groovie.groovieapp;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Movie;
+import android.media.tv.TvContract;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -38,6 +40,7 @@ public class MoviesFragment extends Fragment {
     GridView mGridView;
     LinearLayoutManager mLayoutManager;
     MovieArrayAdapter movieArrayAdapter;
+    ProgressBar progressBar;
     public MoviesFragment() {
     }
 
@@ -88,6 +91,9 @@ public class MoviesFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
+
         return rootView;
     }
 
@@ -99,6 +105,7 @@ public class MoviesFragment extends Fragment {
 
 //            movieArrayAdapter.setMovieReviews(result);
             movieArrayAdapter.notifyDataSetChanged();
+
         }
         public String convertStandardJSONString(String data_json){
             data_json = data_json.replace("\\", "");
@@ -144,7 +151,7 @@ public class MoviesFragment extends Fragment {
 //                resp +="{\"name\": \"The Imitation Game\", \"rating\": \"39.5\", \"image_url\": \"http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg\", \"banner_url\": \"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg\"},";
 //                resp +="{\"name\": \"Cinderella\", \"rating\": \"52.2\", \"image_url\": \"http://www.impawards.com/2015/posters/cinderella_ver4.jpg\", \"banner_url\": \"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg\"}]}";
 //                Log.v("JSON: ",resp);
-                String resp ="{\"success\": \"true\", \"movies\": [{\"image_url\": \"https://s.yimg.com/cd/resizer/2.0/FIT_TO_WIDTH-w500/19141496561e14ab3b41ea38d31af3280009b227.jpg\", \"rating\": \"61.7\", \"banner_url\": \"http://warofthemovies.com/wp-content/uploads/2015/03/Get-Hard-Banner.jpg\", \"name\": \"Get Hard\"}, {\"image_url\": \"http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg\", \"rating\": \"45.9\", \"banner_url\": \"http://blog.bettercrypto.com/wp-content/uploads/the-imitation-game-banner.jpg\", \"name\": \"The Imitation Game\"}, {\"image_url\": \"http://www.impawards.com/2015/posters/cinderella_ver4.jpg\", \"rating\": \"50.4\", \"banner_url\": \"http://www.flickeringmyth.com/wp-content/uploads/2015/01/Cinderella-2015.jpg\", \"name\": \"Cinderella\"}, {\"image_url\": \"http://www.impawards.com/2014/posters/american_sniper.jpg\", \"rating\": \"65.5\", \"banner_url\": \"http://www.davestrailerpage.co.uk/images/americansniper800.jpg\", \"name\": \"American Sniper\"}, {\"image_url\": \"http://assets.nydailynews.com/polopoly_fs/1.1591196!/img/httpImage/image.jpg_gen/derivatives/article_970/grey26f-1-web.jpg\", \"rating\": \"65.9\", \"banner_url\": \"http://www.flickeringmyth.com/wp-content/uploads/2015/02/fifty-shades-of-grey-banner.jpg\", \"name\": \"Fifty Shades of Grey\"}, {\"image_url\": \"http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg\", \"rating\": \"59.7\", \"banner_url\": \"http://www.sasapost.com/wp-content/uploads/98caac85-f5ed-419a-8a2e-672a10473ea3.jpeg\", \"name\": \"Interstellar\"}, {\"image_url\": \"http://fwooshflix.thefwoosh.com/files/2015/02/Kingsman-The-Secret-Service-poster.jpg\", \"rating\": \"100.0\", \"banner_url\": \"https://vincentloy.files.wordpress.com/2015/03/kingsman-the-secret-service-banner.jpg\", \"name\": \"Kingsman: The Secret Service\"}, {\"image_url\": \"http://upload.wikimedia.org/wikipedia/en/a/af/Insurgent_poster.jpg\", \"rating\": \"100.0\", \"banner_url\": \"http://redcarpetrefs.com/wp-content/uploads/2015/03/insurgent-banner.png\", \"name\": \"The Divergent Series: Insurgent\"}]}";
+                String resp = "{\"movies\": [{\"rating\": \"70.3\", \"image_url\": \"http://pop-break.com/wp-content/uploads/2014/11/Theory-of-Everything-Poster.jpg\", \"name\": \"The Theory of Everything\", \"banner_url\": \"https://cindygoesbeyond.files.wordpress.com/2015/03/theory-of-everything-poster.jpg\"}, {\"rating\": \"87.4\", \"image_url\": \"http://cdn.hitfix.com/photos/5794803/Poster-art-for-The-Imitation-Game_event_main.jpg\", \"name\": \"The Imitation Game\", \"banner_url\": \"http://blog.bettercrypto.com/wp-content/uploads/the-imitation-game-banner.jpg\"}, {\"rating\": \"88.3\", \"image_url\": \"http://www.impawards.com/2015/posters/cinderella_ver4.jpg\", \"name\": \"Cinderella\", \"banner_url\": \"http://4.bp.blogspot.com/-cXp81mNRysQ/VPrFJIU2eKI/AAAAAAAADAU/yPtBhBoD-rs/s1600/Disney's%2BCinderella%2B(2015)%2BMovie%2BBanner.jpg\"}, {\"rating\": \"57.0\", \"image_url\": \"http://www.impawards.com/2014/posters/american_sniper.jpg\", \"name\": \"American Sniper\", \"banner_url\": \"http://www.davestrailerpage.co.uk/images/americansniper800.jpg\"}, {\"rating\": \"72.2\", \"image_url\": \"http://assets.nydailynews.com/polopoly_fs/1.1591196!/img/httpImage/image.jpg_gen/derivatives/article_970/grey26f-1-web.jpg\", \"name\": \"Fifty Shades of Grey\", \"banner_url\": \"http://www.flickeringmyth.com/wp-content/uploads/2015/02/fifty-shades-of-grey-banner.jpg\"}, {\"rating\": \"55.2\", \"image_url\": \"http://www.hollywoodreporter.com/sites/default/files/custom/Blog_Images/interstellar2.jpg\", \"name\": \"Interstellar\", \"banner_url\": \"http://www.sasapost.com/wp-content/uploads/98caac85-f5ed-419a-8a2e-672a10473ea3.jpeg\"}, {\"rating\": \"90.1\", \"image_url\": \"http://fwooshflix.thefwoosh.com/files/2015/02/Kingsman-The-Secret-Service-poster.jpg\", \"name\": \"Kingsman: The Secret Service\", \"banner_url\": \"https://vincentloy.files.wordpress.com/2015/03/kingsman-the-secret-service-banner.jpg\"}, {\"rating\": \"51.8\", \"image_url\": \"http://upload.wikimedia.org/wikipedia/en/a/af/Insurgent_poster.jpg\", \"name\": \"The Divergent Series: Insurgent\", \"banner_url\": \"http://redcarpetrefs.com/wp-content/uploads/2015/03/insurgent-banner.png\"}], \"success\": \"true\"}";
                 resp = convertStandardJSONString(resp.trim());
                 //resp =  convertStandardJSONString(resp.trim().substring(1,resp.length()-2));
                 JSONObject obj = new JSONObject(resp);
@@ -163,6 +170,7 @@ public class MoviesFragment extends Fragment {
                     @Override
                     public void run() {
                         movieArrayAdapter.notifyDataSetChanged();
+                        progressBar.setVisibility(ProgressBar.GONE);
                         movieArrayAdapter = new MovieArrayAdapter(getActivity(),R.layout.movie_item,result);
                         movieArrayAdapter.notifyDataSetChanged();
                         mGridView.setAdapter(movieArrayAdapter);
